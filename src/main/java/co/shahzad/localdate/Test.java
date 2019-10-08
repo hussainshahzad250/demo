@@ -38,7 +38,6 @@ public class Test {
 //		
 //		LocalDate fromDate = ConstructDate.stringToDate("12-01-2019");
 //		System.out.println(ChronoUnit.DAYS.between(fromDate,toDate));
-		
 
 //		Date date = DateUtil.parseDate("12-01-2019", DateUtil.DD_MM_YYYY);
 //		Calendar c = Calendar.getInstance();
@@ -85,7 +84,7 @@ public class Test {
 
 		Date dateBeforeXDays = DateUtil.getDateBeforeXDays(new Date(), 7);
 		System.out.println("Date before 7" + dateBeforeXDays);
-		List<LocalDate> dateRange = DateUtil.getDateRange(dateBeforeXDays,new Date());
+		List<LocalDate> dateRange = DateUtil.getDateRange(dateBeforeXDays, new Date());
 
 		System.out.println("Date List " + dateRange);
 		if (CollectionUtils.isEmpty(dateRange))

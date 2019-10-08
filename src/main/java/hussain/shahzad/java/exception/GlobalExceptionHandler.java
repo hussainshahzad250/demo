@@ -32,13 +32,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = MyAppException.class)
 	@ResponseBody
 	public Response<Object> handlePerfiosException(MyAppException ex) {
-		return new Response<Object>(ex.getMessage(), ex.getHttpStatus());
+		return new Response<>(ex.getMessage(), ex.getHttpStatus());
 	}
 
 	@ExceptionHandler(Exception.class)
 	public Response<Object> handlerException(Exception ex) {
 		logger.error("Exception  Occured-:{}", ex);
-		return new Response<Object>("Something went Wrong", HttpStatus.BAD_REQUEST);
+		return new Response<>("Something went Wrong", HttpStatus.BAD_REQUEST);
 	}
 
 }

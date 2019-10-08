@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.PostMapping;
 
 public class CodeHelper {
 	public static String MAIN_PACKAGE = "hussain.shahzad.java";
@@ -20,9 +20,10 @@ public class CodeHelper {
 
 	public static void main(String[] args) throws IOException {
 		List<TableData> tableList = new ArrayList<>();
-		tableList.add(new TableData("name", "String", "", true, true));
-		tableList.add(new TableData("population", "int", "", true, true));
-		createCollection("Employee", tableList);
+		tableList.add(new TableData("summary", "String", "", false, false));
+		tableList.add(new TableData("acceptanceCriteria", "String", "", false, false));
+		tableList.add(new TableData("status", "String", "", false, false));
+		createCollection("ProjectTask", tableList);
 	}
 
 	private static void createCollection(String entityName, List<TableData> fieldsMap) throws IOException {

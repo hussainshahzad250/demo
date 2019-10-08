@@ -14,16 +14,9 @@
 */
 package hussain.shahzad.java.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
-import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,11 +26,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class ControllerTest {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
-	private static final Logger log = LoggerFactory.getLogger(ControllerTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(ControllerTest.class);
 
-	@Autowired
-	private ScheduledAnnotationBeanPostProcessor postProcessor;
+//	@Autowired
+//	private ScheduledAnnotationBeanPostProcessor postProcessor;
 
 //	@Autowired
 //	private ScheduledTask scheduledTask;
@@ -45,16 +37,13 @@ public class ControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Scheduled(fixedRate = 5000)
-	public void reportCurrentTime() {
-		log.info("The time is now {}", DATE_FORMAT.format(new Date()));
-	}
-
 	private static final String SCHEDULED_TASKS = "scheduledTasks";
 
 //	@GetMapping(value = "/stopScheduler")
 //	public String stopSchedule() {
+//		logger.info("Stoping task....");
 //		postProcessor.postProcessBeforeDestruction(scheduledTask, SCHEDULED_TASKS);
+//		logger.info("Stopped.");
 //		return "OK";
 //	}
 //
@@ -66,11 +55,12 @@ public class ControllerTest {
 
 	@GetMapping(value = "/listScheduler")
 	public String listSchedules() throws JsonProcessingException {
-		Set<ScheduledTask> setTasks = postProcessor.getScheduledTasks();
-		if (!setTasks.isEmpty()) {
-			return objectMapper.writeValueAsString(setTasks);
-		} else {
-			return "No running tasks !";
-		}
+		return null;
+//		Set<ScheduledTask> setTasks = postProcessor.getScheduledTasks();
+//		if (!setTasks.isEmpty()) {
+//			return objectMapper.writeValueAsString(setTasks);
+//		} else {
+//			return "No running tasks !";
+//		}
 	}
 }

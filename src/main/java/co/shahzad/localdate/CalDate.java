@@ -38,12 +38,12 @@ public class CalDate {
 
 	/**
 	 * @param args
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public static void main(String[] args) throws ParseException {
 //		getFirstDayOfYear(LocalDate.now());
 //		dateCal();
-		
+
 //		GetDate();
 
 		Date dateBeforeXDays2 = DateUtil.getDateBeforeXDays(new Date(), 90);
@@ -53,13 +53,16 @@ public class CalDate {
 	private static void GetDate() {
 		String dateToString = ConstructDate.dateToString(LocalDate.now(), ConstructDate.YYYY_MM_DD_23_59_59);
 		System.out.println(dateToString);
-		LocalDate stringToDate = ConstructDate.stringToDate(ConstructDate.dateToString(LocalDate.now(), ConstructDate.YYYY_MM_DD_23_59_59), ConstructDate.YYYY_MM_DD_23_59_59);
+		LocalDate stringToDate = ConstructDate.stringToDate(
+				ConstructDate.dateToString(LocalDate.now(), ConstructDate.YYYY_MM_DD_23_59_59),
+				ConstructDate.YYYY_MM_DD_23_59_59);
 		System.out.println(stringToDate);
-		
+
 	}
 
 	private static void dateCal() {
 		// Get the current date and time
+
 		LocalDateTime currentTime = LocalDateTime.now();
 		System.out.println("Current DateTime: " + currentTime);
 
@@ -96,7 +99,5 @@ public class CalDate {
 
 		LocalDate plusDays = LocalDate.now().plusDays(1);
 		System.out.println(plusDays);
-
 	}
-
 }

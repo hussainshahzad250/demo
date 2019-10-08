@@ -1,16 +1,17 @@
 package hussain.shahzad.java.utils;
 
-import hussain.shahzad.java.entity.Designation;
-import java.util.ArrayList;
-import org.springframework.util.CollectionUtils;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.util.CollectionUtils;
+
+import hussain.shahzad.java.entity.Designation;
 import hussain.shahzad.java.requests.dto.DesignationRequest;
 import hussain.shahzad.java.responses.dto.DesignationResponse;
 
 /**
  * @author shahzad.hussain
  */
-
 
 public class DesignationConverter {
 
@@ -23,7 +24,7 @@ public class DesignationConverter {
 	}
 
 	public static Designation getEntityFromRequest(DesignationRequest request) {
-		if(request!=null){
+		if (request != null) {
 			Designation response = new Designation();
 			response.setFirstName(request.getFirstName());
 			response.setLastName(request.getLastName());
@@ -34,7 +35,7 @@ public class DesignationConverter {
 	}
 
 	public static DesignationResponse getResponseFromEntity(Designation request) {
-		if(request!=null){
+		if (request != null) {
 			DesignationResponse response = new DesignationResponse();
 			response.setDesignationId(request.getId());
 			response.setFirstName(request.getFirstName());
@@ -45,8 +46,8 @@ public class DesignationConverter {
 		return null;
 	}
 
-	public static Designation getEntityFromResponse(DesignationResponse request,Designation response) {
-		if(request!=null){
+	public static Designation getEntityFromResponse(DesignationResponse request, Designation response) {
+		if (request != null) {
 			response.setFirstName(request.getFirstName());
 			response.setLastName(request.getLastName());
 			response.setSalary(request.getSalary());
@@ -56,12 +57,8 @@ public class DesignationConverter {
 	}
 
 	public static List<DesignationResponse> getResponseListFromEntityList(List<Designation> requestList) {
-		if(CollectionUtils.isEmpty(requestList))
+		if (CollectionUtils.isEmpty(requestList))
 			return null;
-		List<DesignationResponse> responseList = new ArrayList<>();
-		for(Designation request:requestList){
-			responseList.add(getResponseFromEntity(request));
-		}
-		return responseList;
+		return requestList.stream().map(request -> getResponseFromEntity(request)).collect(Collectors.toList());
 	}
 }

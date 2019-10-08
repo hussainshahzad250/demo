@@ -170,4 +170,7 @@ public class DateUtil {
 		return ChronoUnit.DAYS.between(localDateFromDate2, localDateFromDate) + 1;
 	}
 
+	public static void main(String[] args) throws ParseException {
+		System.out.println(getDateBeforeXDays(new Date(), 60));
+	}
 }

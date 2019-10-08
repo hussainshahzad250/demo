@@ -1,9 +1,11 @@
 package hussain.shahzad.java.utils;
 
-import hussain.shahzad.java.entity.AmazonCategory;
-import java.util.ArrayList;
-import org.springframework.util.CollectionUtils;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.util.CollectionUtils;
+
+import hussain.shahzad.java.entity.AmazonCategory;
 import hussain.shahzad.java.requests.dto.AmazonCategoryRequest;
 import hussain.shahzad.java.responses.dto.AmazonCategoryResponse;
 
@@ -65,10 +67,6 @@ public class AmazonCategoryConverter {
 	public static List<AmazonCategoryResponse> getResponseListFromEntityList(List<AmazonCategory> requestList) {
 		if (CollectionUtils.isEmpty(requestList))
 			return null;
-		List<AmazonCategoryResponse> responseList = new ArrayList<>();
-		for (AmazonCategory request : requestList) {
-			responseList.add(getResponseFromEntity(request));
-		}
-		return responseList;
+		return requestList.stream().map(request -> getResponseFromEntity(request)).collect(Collectors.toList());
 	}
 }

@@ -1,5 +1,6 @@
 package hussain.shahzad.java.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,13 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import hussain.shahzad.java.constants.RestMappingConstants;
 import hussain.shahzad.java.enums.LoanApplicationResponseCode;
@@ -31,7 +40,7 @@ public class PersonController {
 	@Autowired
 	private PersonService personService;
 
-	@RequestMapping(value = RestMappingConstants.REQUEST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = RestMappingConstants.REQUEST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Response<PersonRequest> generateRequestJson(HttpServletRequest request) throws MyAppException {
 
@@ -45,46 +54,53 @@ public class PersonController {
 		System.out.println("" + request.getParameterNames());
 		remoteAddr = request.getHeader("REMOTE_ADDR");
 		System.out.println("REMOTE_ADDR Header IP3 " + remoteAddr);
-		return new Response<PersonRequest>(LoanApplicationResponseCode.SUCCESS.getMessage(),
-				PersonConverter.getSample(), HttpStatus.OK);
+		return new Response<>(LoanApplicationResponseCode.SUCCESS.getMessage(), PersonConverter.getSample(),
+				HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Response<Long> add(@RequestBody(required = true) PersonRequest request) throws MyAppException {
+	public Response<Long> add(@RequestBody(required = true) PersonRequest request) {
 		Long response = personService.add(request);
-		return new Response<Long>(LoanApplicationResponseCode.SUCCESS.getMessage(), response, HttpStatus.OK);
+		return new Response<>(LoanApplicationResponseCode.SUCCESS.getMessage(), response, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = RestMappingConstants.ID_PARAM, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = RestMappingConstants.ID_PARAM, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Response<PersonResponse> getById(@PathVariable(RestMappingConstants.ID) Long id) throws MyAppException {
+	public Response<PersonResponse> getById(@PathVariable(RestMappingConstants.ID) Long id) {
 		PersonResponse response = personService.getById(id);
 		if (response == null) {
 			throw new MyAppException(LoanApplicationResponseCode.PERSON_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return new Response<PersonResponse>(LoanApplicationResponseCode.SUCCESS.getCode(), response, HttpStatus.OK);
+		return new Response<>(LoanApplicationResponseCode.SUCCESS.getCode(), response, HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Response<List<PersonResponse>> getAll() throws MyAppException {
+	public Response<List<PersonResponse>> getAll() {
 		List<PersonResponse> response = personService.getAll();
 		if (CollectionUtils.isEmpty(response)) {
 			throw new MyAppException(LoanApplicationResponseCode.PERSON_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return new Response<List<PersonResponse>>(LoanApplicationResponseCode.SUCCESS.getCode(), response,
-				HttpStatus.OK);
+		return new Response<>(LoanApplicationResponseCode.SUCCESS.getCode(), response, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = RestMappingConstants.ID_PARAM, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(path = RestMappingConstants.ID_PARAM, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Response<Boolean> delete(@PathVariable(RestMappingConstants.ID) Long id) throws MyAppException {
+	public Response<Boolean> delete(@PathVariable(RestMappingConstants.ID) Long id) {
 		if (!personService.exist(id)) {
 			throw new MyAppException(LoanApplicationResponseCode.PERSON_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		personService.delete(id);
-		return new Response<Boolean>(LoanApplicationResponseCode.SUCCESS.getMessage(), HttpStatus.OK);
+		return new Response<>(LoanApplicationResponseCode.SUCCESS.getMessage(), HttpStatus.OK);
+	}
+
+	@PostMapping(path = "/uploadExcell")
+	@ResponseBody
+	public ResponseEntity<Object> uploadExcell(@RequestParam("file") MultipartFile mFile)
+			throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+		personService.uploadExcellFile(mFile);
+		return new ResponseEntity<>(new Response<>("success", HttpStatus.OK), HttpStatus.OK);
 	}
 
 //	@RequestMapping(method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)

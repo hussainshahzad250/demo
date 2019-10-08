@@ -14,34 +14,13 @@
 */
 package com.shahzad.hussain;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.Period;
-
-import hussain.shahzad.java.DateUtil;
-
 public class AA {
 
 	public static void main(String[] args) {
-		BigDecimal preEmiAmt  =BigDecimal.ZERO;
-		LocalDate zeroEmiDt = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().plus(1),24);
 
-		int days = Period.between(LocalDate.now(), zeroEmiDt).getDays();
+		String s = "VISHNUPUR Srail  Isunpur SARAn BR 843125";
 
-		if (days >= 30) {
-
-			System.out.println(DateUtil.getLocalDateToString(zeroEmiDt, DateUtil.DD_MM_YYYY));
-
-		} else {
-
-			System.out.println(DateUtil.getLocalDateToString(zeroEmiDt, DateUtil.DD_MM_YYYY));
-			System.out.println(DateUtil.getLocalDateToString(zeroEmiDt.plusMonths(1), DateUtil.DD_MM_YYYY));
-
-			
-
-		}
-
+		System.out.println(s.substring(s.length() - 6, s.length()));
 	}
 
 }

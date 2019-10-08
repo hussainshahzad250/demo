@@ -19,7 +19,7 @@ import java.util.List;
 public class DateUtil {
 
 	public static final String HH_MM = "HH:mm";
-	public static final String YYYY_MM = "yyyy-MM";
+	public static final String YYYY_MM = "yyyyMM";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 	public static final String DD_MM_YYYY = "dd-MM-yyyy";
 
@@ -141,4 +141,9 @@ public class DateUtil {
 		return diff;
 	}
 
+
+	public static void main(String[] args) throws ParseException {
+		Date parseDate = DateUtil.parseDate("201904", DateUtil.YYYY_MM);
+		System.out.println(parseDate);
+	}
 }

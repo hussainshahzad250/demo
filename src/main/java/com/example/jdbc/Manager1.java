@@ -19,7 +19,7 @@ public class Manager1 {
 		FileReader fin = null;
 		try
 		{
-			fin = new FileReader("application.yml");
+			fin = new FileReader("src/main/resources/application.yml");
 			pr.load(fin);
 		}
 		catch(IOException ex)
@@ -41,18 +41,18 @@ public class Manager1 {
 				ex.printStackTrace();
 			}
 		}
-		driverClass = pr.getProperty("driverClass");
-		url = pr.getProperty("url");
-		username = pr.getProperty("username");
-		password = pr.getProperty("password");
+		driverClass = pr.getProperty("spring.datasource.driver-class-name");
+		url = pr.getProperty("spring.datasource.url");
+		username = pr.getProperty("spring.datasource.username");
+		password = pr.getProperty("spring.datasource.password");
 	}
 	public static void main(String[] args) throws Exception {
 		System.out.println(driverClass);
-//		Class.forName("com.mysql.jdbc.Driver");
-//		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev", "root", "P@ssw0rd");
-//		Statement stmt = con.createStatement();
-//		String s1 = "CREATE TABLE employee(id int(10) unsigned NOT NULL AUTO_INCREMENT,first_name varchar(255) DEFAULT NULL,last_name varchar(255) DEFAULT NULL,salary double DEFAULT NULL,PRIMARY KEY (id))";
-//		stmt.execute(s1);
+		Class.forName(driverClass);
+		Connection con = DriverManager.getConnection(url, username, password);
+		Statement stmt = con.createStatement();
+		String s1 = "CREATE TABLE employee(id int(10) unsigned NOT NULL AUTO_INCREMENT,first_name varchar(255) DEFAULT NULL,last_name varchar(255) DEFAULT NULL,salary double DEFAULT NULL,PRIMARY KEY (id))";
+		stmt.execute(s1);
 		System.out.println("done");
 	}
 
