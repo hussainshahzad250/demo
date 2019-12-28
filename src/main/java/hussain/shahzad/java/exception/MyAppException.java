@@ -2,7 +2,7 @@ package hussain.shahzad.java.exception;
 
 import org.springframework.http.HttpStatus;
 
-import hussain.shahzad.java.enums.LoanApplicationResponseCode;
+import hussain.shahzad.java.enums.ResponseCode;
 
 /**
  * 
@@ -11,9 +11,8 @@ import hussain.shahzad.java.enums.LoanApplicationResponseCode;
  */
 public class MyAppException extends RuntimeException {
 
-	/**
-	 * 
-	 */
+	private static final long serialVersionUID = -2109770668634776728L;
+
 	public int code;
 	public String message;
 	public HttpStatus httpStatus;
@@ -36,11 +35,11 @@ public class MyAppException extends RuntimeException {
 		this.httpStatus = httpStatus;
 	}
 
-	public MyAppException(LoanApplicationResponseCode personNotFound, HttpStatus httpStatus) {
-		this.code=httpStatus.value();
-		this.httpStatus=httpStatus;
-		this.message=personNotFound.getMessage();
-		
+	public MyAppException(ResponseCode personNotFound, HttpStatus httpStatus) {
+		this.code = httpStatus.value();
+		this.httpStatus = httpStatus;
+		this.message = personNotFound.getMessage();
+
 	}
 
 	public int getCode() {

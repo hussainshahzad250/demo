@@ -1,9 +1,9 @@
 server:
-  port: 7050
+  port: 6060
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/dev?useSSL=false
+    url: jdbc:mysql://localhost:3306/world?useSSL=false
     username: root
     password: P@ssw0rd
     driver-class-name: com.mysql.jdbc.Driver
@@ -18,5 +18,3 @@ spring:
     multipart:
       enabled: true
       max-file-size: 6MB
-      
-spring.datasource.driver-class-name: com.mysql.jdbc.Driver

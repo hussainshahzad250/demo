@@ -9,21 +9,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-
 public class CodeHelper {
 	public static String MAIN_PACKAGE = "hussain.shahzad.java";
 	public static String MAIN_PACKAGE_PATH = "src/main/java/hussain/shahzad/java/";
-	public static String author = "/**\r\n" + " * @author shahzad.hussain\r\n" + " */\n\n";
+	public static String author = "/**\r\n" + " * @author Shahzad Hussain\r\n" + " */\n\n";
 
 	public static void main(String[] args) throws IOException {
 		List<TableData> tableList = new ArrayList<>();
-		tableList.add(new TableData("summary", "String", "", false, false));
-		tableList.add(new TableData("acceptanceCriteria", "String", "", false, false));
-		tableList.add(new TableData("status", "String", "", false, false));
-		createCollection("ProjectTask", tableList);
+		tableList.add(new TableData("firstName", "String", "", false, false));
+		tableList.add(new TableData("lastName", "String", "", false, false));
+		tableList.add(new TableData("email", "String", "", false, false));
+		tableList.add(new TableData("mobile", "String", "", false, false));
+		createCollection("Test", tableList);
 	}
 
 	private static void createCollection(String entityName, List<TableData> fieldsMap) throws IOException {
@@ -36,9 +33,9 @@ public class CodeHelper {
 		createService(MAIN_PACKAGE_PATH + "service/", entityName);
 		createServiceImpl(MAIN_PACKAGE_PATH + "service/impl/", entityName);
 		createController(MAIN_PACKAGE_PATH + "controller/", entityName);
-//		addRestMapping(MAIN_PACKAGE_PATH + "constants/", entityName);
-//		addErrorConstants(MAIN_PACKAGE_PATH + "enums/", entityName, fieldsMap);
-//		addValidations(MAIN_PACKAGE_PATH + "utils/", entityName, fieldsMap);
+		addRestMapping(MAIN_PACKAGE_PATH + "constants/", entityName);
+		addErrorConstants(MAIN_PACKAGE_PATH + "enums/", entityName, fieldsMap);
+		addValidations(MAIN_PACKAGE_PATH + "utils/", entityName, fieldsMap);
 
 //		createUrlFile(entityName, fieldsMap);
 	}
@@ -81,7 +78,7 @@ public class CodeHelper {
 			fileWriter.write("@Entity\n");
 			fileWriter.write("@Table(name=" + fileName + ".Columns.TABLE)\n");
 			fileWriter.write("public class " + fileName);
-			fileWriter.write(" extends BaseEntity{\n");
+			fileWriter.write(" {\n");
 			fileWriter.write("\tpublic interface Columns{\n");
 			fileWriter.write("\t\tString TABLE=\"" + fileName.toLowerCase().charAt(0)
 					+ fileName.substring(1, fileName.length()) + "s\";\n");
@@ -171,10 +168,10 @@ public class CodeHelper {
 			String linePre = null;
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
-				if (line.trim().endsWith("{") && !builder.toString().contains(fileName)) {
-					builder.append("import " + MAIN_PACKAGE + ".requests.dto." + fileName + "Request;\n");
-					builder.append("import " + MAIN_PACKAGE + ".responses.dto." + fileName + "Response;\n");
-				}
+//				if (line.trim().endsWith("{") && !builder.toString().contains(fileName)) {
+//					builder.append("import " + MAIN_PACKAGE + ".requests.dto." + fileName + "Request;\n");
+//					builder.append("import " + MAIN_PACKAGE + ".responses.dto." + fileName + "Response;\n");
+//				}
 				if (line.trim().endsWith("}/* finish */")) {
 					if (linePre.trim().endsWith("}")) {
 						if (!builder.toString().contains(fileName + "s Validations")) {
@@ -196,7 +193,7 @@ public class CodeHelper {
 												+ entry.getName().substring(1, entry.getName().length())
 												+ "()==null){\n");
 									}
-									builder.append("\t\tthrow new MyAppException(LoanApplicationResponseCode.EMPTY_"
+									builder.append("\t\tthrow new MyAppException(ResponseCode.EMPTY_"
 											+ entry.getName().toUpperCase() + ");\n");
 									builder.append("\t}\n");
 								}
@@ -205,15 +202,15 @@ public class CodeHelper {
 							builder.append("\tpublic static void validate" + fileName + "Response(" + fileName
 									+ "Response request) throws MyAppException {\n");
 							builder.append("\tif(StringUtils.isEmpty(request.get" + fileName + "Id())){\n");
-							builder.append("\t\tthrow new MyAppException(LoanApplicationResponseCode.EMPTY_"
-									+ fileName.toUpperCase() + "_ID);\n");
+							builder.append("\t\tthrow new MyAppException(ResponseCode.EMPTY_" + fileName.toUpperCase()
+									+ "_ID);\n");
 							builder.append("\t}\n");
 							for (TableData entry : fieldsMap) {
 								if (entry.isNotNull()) {
 									builder.append("\tif(StringUtils.isEmpty(request.get"
 											+ entry.getName().toUpperCase().charAt(0)
 											+ entry.getName().substring(1, entry.getName().length()) + "())){\n");
-									builder.append("\t\tthrow new MyAppException(LoanApplicationResponseCode.EMPTY_"
+									builder.append("\t\tthrow new MyAppException(ResponseCode.EMPTY_"
 											+ entry.getName().toUpperCase() + ");\n");
 									builder.append("\t}\n");
 								}
@@ -237,7 +234,7 @@ public class CodeHelper {
 
 	private static void addErrorConstants(String filePath, String fileName, List<TableData> fieldsMap) {
 		try {
-			FileReader fileReader = new FileReader(filePath + "LoanApplicationResponseCode.java");
+			FileReader fileReader = new FileReader(filePath + "ResponseCode.java");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			StringBuilder builder = new StringBuilder();
 			String linePre = "";
@@ -271,7 +268,7 @@ public class CodeHelper {
 				linePre = line;
 			}
 			bufferedReader.close();
-			FileOutputStream out = new FileOutputStream(filePath + "LoanApplicationResponseCode.java");
+			FileOutputStream out = new FileOutputStream(filePath + "ResponseCode.java");
 			out.write(builder.toString().getBytes());
 			out.close();
 		} catch (IOException e) {
@@ -282,7 +279,7 @@ public class CodeHelper {
 
 	private static void addRestMapping(String filePath, String fileName) {
 		try {
-			FileReader fileReader = new FileReader(filePath + "RestMappingConstants.java");
+			FileReader fileReader = new FileReader(filePath + "Constants.java");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			StringBuilder builder = new StringBuilder();
 			String linePre = null;
@@ -302,7 +299,7 @@ public class CodeHelper {
 				linePre = line;
 			}
 			bufferedReader.close();
-			FileOutputStream out = new FileOutputStream(filePath + "RestMappingConstants.java");
+			FileOutputStream out = new FileOutputStream(filePath + "Constants.java");
 			out.write(builder.toString().getBytes());
 			out.close();
 		} catch (IOException e) {
@@ -326,8 +323,8 @@ public class CodeHelper {
 			fileWriter.write("import org.springframework.web.bind.annotation.PathVariable;\n");
 			fileWriter.write("import org.springframework.web.bind.annotation.RequestMapping;\n");
 
-			fileWriter.write("import " + MAIN_PACKAGE + ".constants.RestMappingConstants;\n");
-			fileWriter.write("import " + MAIN_PACKAGE + ".enums.LoanApplicationResponseCode;\n");
+			fileWriter.write("import " + MAIN_PACKAGE + ".constants.Constants;\n");
+			fileWriter.write("import " + MAIN_PACKAGE + ".enums.ResponseCode;\n");
 			fileWriter.write("import " + MAIN_PACKAGE + ".exception.MyAppException;\n");
 			fileWriter.write("import " + MAIN_PACKAGE + ".responses.dto.Response;\n");
 			fileWriter.write("import org.springframework.util.CollectionUtils;\n");
@@ -341,7 +338,7 @@ public class CodeHelper {
 			fileWriter.write(author + "\n");
 
 			fileWriter.write("@RestController\n");
-			fileWriter.write("@RequestMapping(value = \"/api/" + fileName + "\")\n");
+			fileWriter.write("@RequestMapping(value = \"/api/" + fileName.toLowerCase() + "\")\n");
 			fileWriter.write("public class " + fileName + "Controller{\n\n");
 
 			fileWriter.write("\t@Autowired\n");
@@ -351,13 +348,11 @@ public class CodeHelper {
 			fileWriter.write("\tprivate " + fileName + "Service " + serviceName + ";\n");
 			fileWriter.write("\n");
 
-			fileWriter.write(
-					"\t@GetMapping(value = RestMappingConstants.REQUEST, produces = MediaType.APPLICATION_JSON_VALUE)\n");
+			fileWriter.write("\t@GetMapping(value = Constants.REQUEST, produces = MediaType.APPLICATION_JSON_VALUE)\n");
 			fileWriter
 					.write("\tpublic Response<" + fileName + "Request> generateRequestJson() throws MyAppException{\n");
-			fileWriter.write(
-					"\t\treturn new Response<" + fileName + "Request>(LoanApplicationResponseCode.SUCCESS.getMessage(),"
-							+ fileName + "Converter.getSample(),HttpStatus.OK);\n");
+			fileWriter.write("\t\treturn new Response<>(ResponseCode.SUCCESS.getMessage()," + fileName
+					+ "Converter.getSample(),HttpStatus.OK);\n");
 			fileWriter.write("\t}\n\n");
 
 			fileWriter.write("\t@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)\n");
@@ -365,21 +360,18 @@ public class CodeHelper {
 			fileWriter.write("@RequestBody(required = true) " + fileName + "Request request");
 			fileWriter.write(")throws MyAppException{\n");
 			fileWriter.write("\t\tLong response = " + serviceName + ".add(request);\n");
-			fileWriter.write(
-					"\t\treturn new Response<Long>(LoanApplicationResponseCode.SUCCESS.getMessage(),response,HttpStatus.OK);\n");
+			fileWriter.write("\t\treturn new Response<>(ResponseCode.SUCCESS.getMessage(),response,HttpStatus.OK);\n");
 			fileWriter.write("\t}\n\n");
 
-			fileWriter.write(
-					"\t@GetMapping(path = RestMappingConstants.ID_PARAM, produces = MediaType.APPLICATION_JSON_VALUE)\n");
+			fileWriter.write("\t@GetMapping(path = Constants.ID_PARAM, produces = MediaType.APPLICATION_JSON_VALUE)\n");
 			fileWriter.write("\tpublic Response<" + fileName + "Response> getById(");
-			fileWriter.write("@PathVariable(RestMappingConstants.ID) Long id)throws MyAppException{\n");
+			fileWriter.write("@PathVariable(Constants.ID) Long id)throws MyAppException{\n");
 			fileWriter.write("\t" + fileName + "Response response = " + serviceName + ".getById(id);\n");
 			fileWriter.write("\tif(response==null){\n");
 
 			fileWriter.write("\t\tthrow new MyAppException(\"" + fileName + " Not Found\",HttpStatus.NOT_FOUND);\n");
 			fileWriter.write("\t}\n");
-			fileWriter.write("\treturn new Response<" + fileName
-					+ "Response>(LoanApplicationResponseCode.SUCCESS.getMessage(),response,HttpStatus.OK);\n");
+			fileWriter.write("\treturn new Response<>(ResponseCode.SUCCESS.getMessage(),response,HttpStatus.OK);\n");
 			fileWriter.write("\t}\n\n");
 
 			fileWriter.write("\t@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)\n");
@@ -388,20 +380,18 @@ public class CodeHelper {
 			fileWriter.write("\tif(CollectionUtils.isEmpty(response)){\n");
 			fileWriter.write("\t\tthrow new MyAppException(\"No " + fileName + " Found\",HttpStatus.NOT_FOUND);\n");
 			fileWriter.write("\t}\n");
-			fileWriter.write("\treturn new Response<List<" + fileName
-					+ "Response>>(LoanApplicationResponseCode.SUCCESS.getCode(), response, HttpStatus.OK);\n");
+			fileWriter.write("\treturn new Response<>(ResponseCode.SUCCESS.getCode(), response, HttpStatus.OK);\n");
 			fileWriter.write("\t}\n\n");
 
 			fileWriter.write(
-					"\t@DeleteMapping(path = RestMappingConstants.ID_PARAM, produces = MediaType.APPLICATION_JSON_VALUE)\n");
+					"\t@DeleteMapping(path = Constants.ID_PARAM, produces = MediaType.APPLICATION_JSON_VALUE)\n");
 			fileWriter.write("\tpublic Response<Boolean> delete(");
-			fileWriter.write("@PathVariable(RestMappingConstants.ID) Long id)throws MyAppException{\n");
+			fileWriter.write("@PathVariable(Constants.ID) Long id)throws MyAppException{\n");
 			fileWriter.write("\tif(!" + serviceName + ".exist(id)){\n");
 			fileWriter.write("\t\tthrow new MyAppException(\"" + fileName + " Not Found\",HttpStatus.NOT_FOUND);\n");
 			fileWriter.write("\t}\n");
 			fileWriter.write("\t" + serviceName + ".delete(id);\n");
-			fileWriter.write(
-					"\treturn new Response<Boolean>(LoanApplicationResponseCode.SUCCESS.getMessage(),HttpStatus.OK);\n");
+			fileWriter.write("\treturn new Response<>(ResponseCode.SUCCESS.getMessage(),HttpStatus.OK);\n");
 			fileWriter.write("\t}\n\n");
 
 //			fileWriter.write(
@@ -410,12 +400,12 @@ public class CodeHelper {
 //			fileWriter.write("\tpublic Response<Boolean> update(");
 //			fileWriter.write("@RequestBody(required = true) " + fileName + "Response request)throws MyAppException{\n");
 //			fileWriter.write("\tif(!" + serviceName + ".exist(request.get" + fileName + "Id())){\n");
-//			fileWriter.write("\t\tthrow new MyAppException(LoanApplicationResponseCode." + fileName.toUpperCase()
+//			fileWriter.write("\t\tthrow new MyAppException(ResponseCode." + fileName.toUpperCase()
 //					+ "_NOT_FOUND,HttpStatus.NOT_FOUND);\n");
 //			fileWriter.write("\t}\n");
 //			fileWriter.write("\tBoolean response = " + serviceName + ".update(request);\n");
 //			fileWriter.write(
-//					"\treturn new Response<Boolean>(LoanApplicationResponseCode.SUCCESS.getMessage(),HttpStatus.OK);\n");
+//					"\treturn new Response<Boolean>(ResponseCode.SUCCESS.getMessage(),HttpStatus.OK);\n");
 //			fileWriter.write("\t}\n\n");
 
 			fileWriter.write("}");

@@ -3,7 +3,7 @@ package hussain.shahzad.java.responses.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import hussain.shahzad.java.enums.LoanApplicationResponseCode;
+import hussain.shahzad.java.enums.ResponseCode;
 
 /**
  * 
@@ -16,7 +16,7 @@ public class BaseResponsePojo {
 	private String status;
 	private String msg;
 
-	public BaseResponsePojo(LoanApplicationResponseCode roEmiResponseCode) {
+	public BaseResponsePojo(ResponseCode roEmiResponseCode) {
 		this(roEmiResponseCode.getMessage());
 	}
 

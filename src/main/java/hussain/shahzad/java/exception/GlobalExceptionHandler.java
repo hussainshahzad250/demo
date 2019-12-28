@@ -15,6 +15,8 @@
 
 package hussain.shahzad.java.exception;
 
+import java.io.FileNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,19 @@ import hussain.shahzad.java.responses.dto.Response;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(value = MyAppException.class)
 	@ResponseBody
-	public Response<Object> handlePerfiosException(MyAppException ex) {
-		return new Response<>(ex.getMessage(), ex.getHttpStatus());
+	public Response<Object> handleMyAppException(MyAppException ex) {
+		return new Response<>(ex.message, ex.getHttpStatus());
+	}
+
+	@ExceptionHandler(value = FileNotFoundException.class)
+	@ResponseBody
+	public Response<Object> handleFileNotFoundException(FileNotFoundException ex) {
+		logger.info("Exception occurs => {}", ex);
+		return new Response<>("Template does not exist", HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(Exception.class)
