@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jasper_report_template" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f91172c-60a7-46e5-b771-bdf2fa3d4884">
+	<parameter name="jasperData" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -11,7 +12,7 @@
 		<fieldDescription><![CDATA[name]]></fieldDescription>
 	</field>
 	<columnHeader>
-		<band height="23" splitType="Stretch">
+		<band height="37" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="3" width="535" height="15" backcolor="#70A9A9" uuid="32dd48b2-47d1-4b20-b15e-1821e6700287"/>
 				<box>
@@ -20,23 +21,44 @@
 				<text><![CDATA[ ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="414" y="3" width="121" height="15" uuid="1f0df2f5-4a1c-4be6-b27f-87e784c2225f"/>
+				<reportElement x="431" y="2" width="104" height="15" uuid="1f0df2f5-4a1c-4be6-b27f-87e784c2225f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Country]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="3" width="136" height="15" uuid="d5f68b05-daab-4afe-926b-a6f5ca25a9c1"/>
+				<reportElement x="0" y="0" width="120" height="18" uuid="d5f68b05-daab-4afe-926b-a6f5ca25a9c1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Name]]></text>
+				<text><![CDATA[First Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="110" height="18" uuid="bccf19dc-5d48-4385-8012-e25e042f9b4d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Last Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="100" height="18" uuid="7d4de8e6-1095-4778-b5cf-28ddcb2a5c1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="0" width="100" height="18" uuid="a9c882d0-0722-46bb-921c-e3cbe0874026"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="535" height="14" backcolor="#E5ECF9" uuid="97cf49b4-1b88-477e-bbd8-aecae64629d0"/>
 				<box>
@@ -45,15 +67,32 @@
 				<text><![CDATA[ ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="414" y="0" width="121" height="15" uuid="9b9401bb-d58b-46bb-954d-3714cc2ecb2b"/>
+				<reportElement x="431" y="0" width="104" height="20" uuid="9b9401bb-d58b-46bb-954d-3714cc2ecb2b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{country}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="136" height="15" uuid="de5d986b-06ab-437f-be87-cb6a4e8ed2cc"/>
+				<reportElement x="0" y="0" width="120" height="20" uuid="de5d986b-06ab-437f-be87-cb6a4e8ed2cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="110" height="20" uuid="09e2d5fd-2c4f-4707-81d1-e9b667c42fb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="0" width="101" height="20" uuid="de1a3341-eecf-471a-80e9-9fc3f01eb3fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="101" height="20" uuid="709c3438-b72e-423c-966c-78bbcf866c73"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 		</band>
